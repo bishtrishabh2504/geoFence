@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1066450340739",
+    "project_id": "geofence-2fda5",
+    "storage_bucket": "geofence-2fda5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1066450340739:android:901e97c8cb60e7821b44b6",
+        "android_client_info": {
+          "package_name": "com.geo.fence.android"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlxEqeodRQFAVy_adMmyXg_ozFt4KHJvQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

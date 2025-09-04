@@ -24,4 +24,11 @@ class AppStoragePref {
   setIsLogin(bool isLogin) {
     customerStorage.write("isLogin", isLogin);
   }
+
+  int get getUserId =>
+      customerStorage.read("setUserId") ?? 0;
+
+  setUserId(int userId) {
+    customerStorage.write("setUserId", userId);
+  }
 }

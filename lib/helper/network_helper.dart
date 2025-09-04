@@ -21,7 +21,6 @@ class NetworkService {
         receiveTimeout: const Duration(seconds: 10),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AppStoragePref.shared.getAuthToken}'
         },
       ),
     );
@@ -45,7 +44,7 @@ class NetworkService {
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      String token = AppStoragePref.shared.getAuthToken;
+      String token = appStorage.getAuthToken;
       if (token.isNotEmpty){
         _dio.options.headers["Authorization"] = 'Bearer $token';
       }

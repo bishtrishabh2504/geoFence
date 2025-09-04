@@ -1,10 +1,10 @@
 import 'package:get_storage/get_storage.dart';
-
+var appStorage = AppStoragePref.shared;
 class AppStoragePref {
   AppStoragePref._();
   static final shared = AppStoragePref._();
   var customerStorage =
-  GetStorage("customerStorage"); //-----Use only for user specific data
+  GetStorage("customerStorage");
 
 
   init() async {

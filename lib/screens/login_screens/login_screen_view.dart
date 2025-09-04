@@ -49,9 +49,9 @@ class _LoginScreenState extends State<LoginScreen> {
       );
       setState(() => _isLoading = false);
       if (result.success ?? false) {
-        await AppStoragePref.shared.setAuthToken(result.token ?? "");
-        await AppStoragePref.shared.setIsLogin(true);
-        await AppStoragePref.shared.setUserId(result.userId ?? 0);
+        await appStorage.setAuthToken(result.token ?? "");
+        await appStorage.setIsLogin(true);
+        await appStorage.setUserId(result.userId ?? 0);
 
         if (!mounted) return;
         Navigator.pushReplacement(

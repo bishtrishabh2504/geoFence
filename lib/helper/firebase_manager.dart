@@ -9,12 +9,11 @@ class FirebaseHelper {
     required double lng,
   }) async {
 
-    int timestamp = DateTime.now().millisecondsSinceEpoch;
-    DateTime date = DateTime.fromMillisecondsSinceEpoch(timestamp);
+    String dateTimeString = DateTime.now().toString();
     await _db.child("locations").child(userId).set({
       "lat": lat,
       "lng": lng,
-      "timestamp": date,
+      "timestamp": dateTimeString,
     });
   }
 }

@@ -1,16 +1,8 @@
 import 'package:get_storage/get_storage.dart';
-var appStorage = AppStoragePref.shared;
+var appStorage = AppStoragePref();
 class AppStoragePref {
-  AppStoragePref._();
-  static final shared = AppStoragePref._();
-  var customerStorage =
-  GetStorage("customerStorage");
 
-
-  init() async {
-    await GetStorage.init("customerStorage");
-    return true;
-  }
+  static final customerStorage = GetStorage();
 
   String get getAuthToken =>
      customerStorage.read("AuthToken") ?? "";

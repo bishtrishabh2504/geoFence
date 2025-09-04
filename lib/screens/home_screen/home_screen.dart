@@ -115,7 +115,7 @@ class _HomePageState extends State<HomePage> {
       actions: [
         IconButton(onPressed: ()async{
           await stopBackgroundTracking();
-          await AppStoragePref.shared.customerStorage.erase();
+          await AppStoragePref.customerStorage.erase();
           MyApp.of(context).restartApp();
         }, icon: Icon(Icons.exit_to_app_outlined))
       ],),

@@ -10,8 +10,7 @@ import 'package:get_storage/get_storage.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  GetStorage.init();
-  AppStoragePref.shared.init();
+  await GetStorage.init();
   runApp(const MyApp());
 }
 
@@ -41,42 +40,6 @@ class _MyAppState extends State<MyApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home: appStorage.getIsLogin ? HomePage() : LoginScreen(),
-    );
-  }
-}
-
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    bg.BackgroundGeolocation.stop();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("BG Geolocation Debug Test")),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text("Current location:", style: TextStyle(fontSize: 18)),
-            const SizedBox(height: 10),
-          ],
-        ),
-      ),
     );
   }
 }

@@ -19,14 +19,29 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    _initialTracking();
     _initBackgroundGeolocation();
   }
+  void _initialTracking() async {
+    final location = await bg.BackgroundGeolocation.getCurrentPosition(
+      samples: 1,
+      persist: false,
+    );
+    final lat = location.coords.latitude;
+    final lng = location.coords.longitude;
 
+    setState(() {
+      _locationText = "Lat: $lat, Lng: $lng";
+      _firebaseStatus = "Updating Firebase...";
+    });
+
+    await _sendLocationToServer(lat, lng);
+  }
   void _initBackgroundGeolocation() {
     bg.BackgroundGeolocation.ready(
       bg.Config(
         desiredAccuracy: bg.Config.DESIRED_ACCURACY_HIGH,
-        distanceFilter: 20,
+        distanceFilter: 10, // This will invoke the onLocation every 1o meters
         stopOnTerminate: false,
         startOnBoot: true,
         debug: true,

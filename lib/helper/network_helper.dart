@@ -45,6 +45,10 @@ class NetworkService {
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
+      String token = AppStoragePref.shared.getAuthToken;
+      if (token.isNotEmpty){
+        _dio.options.headers["Authorization"] = 'Bearer $token';
+      }
       Response response;
       if (method == HttpMethod.get) {
         response = await _dio.get(endpoint, queryParameters: queryParameters);

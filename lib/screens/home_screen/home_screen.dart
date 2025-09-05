@@ -207,10 +207,10 @@ class _HomePageState extends State<HomePage> {
                 style:
                 const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
-            Text(
-              _firebaseStatus,
-              style: const TextStyle(fontSize: 14, color: Colors.green),
-            ),
+            // Text(
+            //   _firebaseStatus,
+            //   style: const TextStyle(fontSize: 14, color: Colors.green),
+            // ),
           ],
         ),
       ),

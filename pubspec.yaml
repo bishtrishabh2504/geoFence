@@ -39,8 +39,10 @@ dependencies:
   flutter_background_geolocation:
   workmanager:
   get_storage:
-  dio: 
-
+  dio:
+  permission_handler:
+  firebase_crashlytics:
+  firebase_analytics:
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -6,6 +6,8 @@ import 'package:geofence_demo/helper/network_helper.dart';
 import 'package:geofence_demo/models/base_model.dart';
 import 'package:geofence_demo/screens/home_screen/home_screen.dart';
 
+import '../../helper/permission_helper.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -25,7 +27,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _login() async {
     if (!_formKey.currentState!.validate()) return;
-
+    final allowed = await PermissionHelper.checkLocationPermission(context);
+    if (!allowed) return;
     setState(() => _isLoading = true);
     try {
       final location = await bg.BackgroundGeolocation.getCurrentPosition(

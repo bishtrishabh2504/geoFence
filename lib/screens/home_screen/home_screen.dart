@@ -46,6 +46,7 @@ class _HomePageState extends State<HomePage> {
         startOnBoot: true,
         debug: true,
         logLevel: bg.Config.LOG_LEVEL_VERBOSE,
+        enableHeadless: true
       ),
     ).then((state) {
       if (!state.enabled) {
@@ -101,13 +102,6 @@ class _HomePageState extends State<HomePage> {
       debugPrint("Failed to send location: $e and stack $stack");
     }
   }
-
-  @override
-  void dispose() {
-    bg.BackgroundGeolocation.stop();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

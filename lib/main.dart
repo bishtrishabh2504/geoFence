@@ -15,40 +15,13 @@ import 'helper/network_helper.dart';
 
 @pragma('vm:entry-point')
 void backgroundTask(bg.HeadlessEvent headlessEvent) async {
-  if (headlessEvent.name == bg.Event.LOCATION  || headlessEvent.name == bg.Event.TERMINATE
-  || headlessEvent.name == bg.Event.HEARTBEAT) {
-    final location = await bg.BackgroundGeolocation.getCurrentPosition(
-        samples: 1,
-        persist: true,
-        extras: {
-          "event": "terminate",
-          "headless": true
-        }
-    );
+  if (headlessEvent.name == bg.Event.LOCATION) {
+    final location = headlessEvent.event as bg.Location;
     final lat = location.coords.latitude;
     final lng = location.coords.longitude;
     final userId = appStorage.getUserId;
-    LogHelper.logEvent("headless_task : backgroundTask", params: {
-      "event": headlessEvent.name,
-      "lat": lat,
-      "lng": lng,
-      "userId": userId,
-    });
-    try{
-      await FirebaseHelper.updateUserLocation(
-        userId: userId.toString(),
-        lat: lat,
-        lng: lng,
-      );
-    }catch(e, stack){
-      print("Failed to update location in firebase in headless task: $e");
-      LogHelper.logError(e, stack,
-          reason: "Failed Firebase update in headless task: backgroundTask");
-    }
-
 
     try {
-      // Send to server
       await NetworkService().request<Map<String, dynamic>>(
         endpoint: "location",
         method: HttpMethod.post,
@@ -56,71 +29,16 @@ void backgroundTask(bg.HeadlessEvent headlessEvent) async {
         fromJson: (json) => json,
       );
 
-    } catch (e,stack) {
-      LogHelper.logError(e, stack,
-          reason: "Failed Network update in headless task");
-      print("Failed to send location in headless task: $e");
-    }
-  }
-}
-@pragma('vm:entry-point')
-void backgroundFetchHeadlessTask(HeadlessTask task) async {
-  String taskId = task.taskId;
-  if (task.timeout) {
-    print("[BackgroundFetch] HeadlessTask TIMEOUT: $taskId");
-    BackgroundFetch.finish(taskId);
-    return;
-  }
-  try {
-    var location = await bg.BackgroundGeolocation.getCurrentPosition(
-        samples: 2,
-        extras: {
-          "event": "background-fetch",
-          "headless": true
-        }
-    );
-    final lat = location.coords.latitude;
-    final lng = location.coords.longitude;
-    final userId = appStorage.getUserId;
-    LogHelper.logEvent("background_fetch", params: {
-      "lat": lat,
-      "lng": lng,
-      "userId": userId,
-    });
-    try{
       await FirebaseHelper.updateUserLocation(
         userId: userId.toString(),
         lat: lat,
         lng: lng,
       );
-    }catch(e,stack){
-      print("Failed to update location in firebase in headless task: $e");
-      LogHelper.logError(e, stack,
-          reason: "Failed Firebase update in background-fetch");
+    } catch (e) {
+      print("Headless task failed: $e");
     }
-
-    try {
-      // Send to server
-      await NetworkService().request<Map<String, dynamic>>(
-        endpoint: "location",
-        method: HttpMethod.post,
-        data: {"user_id": userId, "lat": lat, "lng": lng},
-        fromJson: (json) => json,
-      );
-
-      // Send to Firebase
-    } catch (e,stack) {
-      print("Failed to send location in headless task: $e");
-      LogHelper.logError(e, stack,
-          reason: "Failed API call in background-fetch");
-    }
-  } catch(error,stack) {
-    print("[location] ERROR: $error");
-    LogHelper.logError(error, stack, reason: "BackgroundFetch location error");
   }
-  BackgroundFetch.finish(taskId);
 }
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -133,7 +51,6 @@ void main() async {
   };
 
   bg.BackgroundGeolocation.registerHeadlessTask(backgroundTask);
-  BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
   runApp(const MyApp());
 }
 
